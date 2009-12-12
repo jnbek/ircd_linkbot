@@ -1,0 +1,70 @@
+$Id$
+Unreal IRCd Network Links Bot.
+Connects to an Unreal IRCd Network Server Hub and Lists the Servers Linked to the Hub.
+This should work on any IRCd server that honors the STATS l comamnd.
+Dependencies:
+    Net::IRC (Bundled)
+    JSON
+    A Webserver with PHP Enabled. (PHP is optional, but easiest to use).
+Installation:
+1. First acquite the software. There are two ways to acquire this software:
+    a. You may install this by using the the tarball archive found at 
+    http://ircd.zoelife4u.org/linkbot/ and extract it with:
+        tar -xjvf unrealirc_linkbot.tar.bz2
+    b. You may use the GIT repository: git clone git://github.com/jnbek/unrealircd_linkbot.git
+2. Install the linkbot.pl file and the Net directory to a place of your liking, i recommend $HOME/bin.
+    a. cp linkbot.pl $HOME/bin && cp -r Net $HOME/bin
+    b. cd $HOME/bin
+    c. chmod 755 $HOME/bin/linkbot.pl
+    d. open $HOME/bin/linkbot.pl and edit line 82 to match the ports your hub listens on. They are | seperated.
+3. Configure the options in the linkbot.pl file to suit your network needs. Note, if you choose the Ajax route
+below you will need to configure linkbot.pl to write the json file to the same directory containing the html file.
+if you choose the PHP route below, simply change the path and filename in both linkbot.pl and irclinks.php to the same location.
+
+4. Install either the irclinks.php file in the php/ directory OR the getlinks.js file in the ajax/ directory
+    to the web server directory that will contain the page(s) displaying your network's link information.
+    a. If choosing the PHP route, in the page you wish to display your links, simply place:
+        <?php include('/path/to/irclinks.php'); ?>
+       Where ever you want the listing to show. This file contains the table structure necessary to properly
+       display the network links.
+    b. If you choose the AJAX route, in the page you wish to display your links, in the head section add:
+        <script type="text/javascript" src="getlinks.js"></script>
+       And in the body section where you wish the link table to display:
+       <div id='server_links'></div>
+       <script type="text/javascript">
+       getJSON();
+       </script>
+   Simple as that. Note the CSS is up to you. I use two classes irc_stats and server_1, you may style them
+   to your liking.
+5. Install the cron. As the user that will execute the linkbot, execute:
+    crontab -e < cron/linkbot.cron 
+   Note: this user will need write access to the JSON file's location.
+
+FAQ:
+
+Q. Will you help me install this?
+A. No, the instructions are very simple, since the STATS l command requires oper access, 
+you will already know enough to make this work.
+
+Q. Why Net::IRC, don't you know it's DEPRECATED?
+A. Yes, I know it's deprecated, and I don't care, it meets the needs for what this script does.
+It doesn't need all the power that POE::Component::IRC offers, and AnyEvent::IRC is too convoluted
+for the needs of this script. Fact is, Net::IRC should not be deprecated, but left alone, since the 
+IRC Protocol hasn't changed and likely won't change. Net::IRC meets the need in it's own simplicity.
+
+Q. Why JSON, you got something againsts CSV or XML?
+A. No, CSV and XML are cool, but JSON is a great lightweight container that can be easily parsed
+from a Client Side Javascript, and it's all about ease when programming right?
+
+Q. What's the history of this script?
+A. My very first script EVER (in any language) was an IO::Socket version of this script in Perl. It still works, but I wanted
+to try something different. So I rewrote it as this!! After 6 years, change can be good, right?
+
+Q. Can I see a real world example of this in action?
+A. http://ircd.zoelife4u.org/ It's the Server List as of.. table.
+
+Q. Why the weird CSS class names?
+A. I don't remember why I chose those class names, they rolled over from the original IO::Socket script.
+
+Q. Why did you write this, are you bored or something?
+A. Yes.
