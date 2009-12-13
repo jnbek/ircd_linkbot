@@ -1,4 +1,3 @@
-$Id$
 Unreal IRCd Network Links Bot.
 Connects to an Unreal IRCd Network Server Hub and Lists the Servers Linked to the Hub.
 This should work on any IRCd server that honors the STATS l comamnd.
