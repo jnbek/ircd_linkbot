@@ -3,12 +3,11 @@
 ### written by jnbek@yahoo.com                                    ###
 ### This code is licensed under the terms of the GPL 3.0 License. ###
 ### See http://www.gnu.org/licenses/gpl-3.0-standalone.html       ###
-# $Id$
 use strict;
 use warnings;
 use Net::IRC;
 use JSON;
-
+our $version = '0.1.1';
 ###---- Configuration ----###
 my $server   = 'your.servername.com';  #The server/network hub.
 my $port     = 6667;                   #The server's port, usually 6667

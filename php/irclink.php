@@ -1,7 +1,6 @@
 <?php
 /*
-  All purpose linkbot parser.
-  $Id$
+  All purpose ircd_linkbot parser.
  */
 /* Configuration */
 $filename = '/path/to/network_links.json';
