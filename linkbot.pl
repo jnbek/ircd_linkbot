@@ -7,7 +7,7 @@ use strict;
 use warnings;
 use Net::IRC;
 use JSON;
-our $version = '0.1.1';
+our $version = '0.2';
 ###---- Configuration ----###
 my $server   = 'your.servername.com';  #The server/network hub.
 my $port     = 6667;                   #The server's port, usually 6667
@@ -15,7 +15,7 @@ my $nick     = 'linkbot';              #The Bot's nickname (REQUIRED).
 my $opernick = 'opernick';             # Nick for /oper command (REQUIRED).
 my $operpass = 'operpass';             # Password for /oper $opernick (REQUIRED)
 my $nspass   = 'nspass';               # Nickserv password (REQUIRED)
-my $ircname     = "$nick something creative";      # This is the bot's fullname.
+my $ircname     = "something creative";      # This is the bot's 'tagline'.
 my $website     = "http://ircd.yournetwork.com/";  # Your IRC Network Homepage.
 my $filename    = '/path/to/network_links.json';
 my $testchannel = '';                              # Leave Blank for none.
@@ -31,6 +31,7 @@ my $conn   = $irc->newconn(
     Server  => $server,
     Port    => $port,
     Ircname => "$0: $ircname",
+    Username => "$nick",
 );
 $conn->add_global_handler( '376', \&on_connect );
 $conn->add_global_handler( '211', \&on_links );
