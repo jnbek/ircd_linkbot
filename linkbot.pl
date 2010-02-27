@@ -7,7 +7,7 @@ use strict;
 use warnings;
 use Net::IRC;
 use JSON;
-our $version = '0.2';
+our $version = '0.3';
 ###---- Configuration ----###
 my $server   = 'your.servername.com';  #The server/network hub.
 my $port     = 6667;                   #The server's port, usually 6667
@@ -20,6 +20,7 @@ my $website     = "http://ircd.yournetwork.com/";  # Your IRC Network Homepage.
 my $filename    = '/path/to/network_links.json';
 my $testchannel = '';                              # Leave Blank for none.
 my $want_weeks = 0;    # Show weeks instead of days in uptime.
+my @global_hours = qw(12 18); #Fire the GLOBAL msg at 12pm and 6pm only. Leave blank to always fire.
 ###---- End Configuration ----###
 
 ### Don't change anything below, unless you know what you're doing. ###.
@@ -93,13 +94,17 @@ sub on_links {
 
 sub on_write {
     my ( $self, $event ) = @_;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
     my (@glob) = ( $event->args );
     shift(@glob);
     shift @slinks;
     open( my $FH, '>', $filename ) || die "Failed to open $filename: $!";
     print $FH encode_json( \@slinks );
     close($FH);
-    $self->privmsg( "operserv", "global Server list updated. See: $website" );
+    if ((!$global_hours[0]) || ($global_hours[0] && grep(!/^$hour/, @global_hours)))
+    {
+        $self->privmsg( "operserv", "global Server list updated. See: $website" );
+    }
     $self->disconnect;
 }
 
