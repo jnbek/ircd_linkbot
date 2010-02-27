@@ -32,6 +32,6 @@ function respHandler() {
         }
         tbl_code += "</table>";
         destElem.innerHTML = tbl_code;
-        console.log(tbl_code);
+        //console.log(tbl_code);
     }
 }
