@@ -7,7 +7,8 @@ use strict;
 use warnings;
 use Net::IRC;
 use JSON;
-our $version = '0.3';
+use FindBin;
+our $version = '0.4';
 ###---- Configuration ----###
 my $server   = 'your.servername.com';  #The server/network hub.
 my $port     = 6667;                   #The server's port, usually 6667
@@ -24,6 +25,7 @@ my @global_hours = qw(12 18); #Fire the GLOBAL msg at 12pm and 6pm only. Leave b
 ###---- End Configuration ----###
 
 ### Don't change anything below, unless you know what you're doing. ###.
+my $script = $FindBin::RealScript;
 my @slinks = [];
 my $i      = 0;
 my $irc    = new Net::IRC;
@@ -31,7 +33,7 @@ my $conn   = $irc->newconn(
     Nick    => $nick,
     Server  => $server,
     Port    => $port,
-    Ircname => "$0: $ircname",
+    Ircname => "$script: $ircname",
     Username => "$nick",
 );
 $conn->add_global_handler( '376', \&on_connect );
